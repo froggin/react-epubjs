@@ -67,6 +67,6 @@ ReactDOM.render(<EpubView />, root)
 
 ### More feature in future
 
-Create new issue here: [https://github.com/ant066/react-epubjs/issues](https://github.com/ant066/react-epubjs/issues)
+Create new issue here: [https://github.com/froggin/react-epubjs/issues](https://github.com/froggin/react-epubjs/issues)
 
-Track the progress here: [Kanban](https://github.com/ant066/react-epubjs/projects/1?fullscreen=true)
+Track the progress here: [Kanban](https://github.com/froggin/react-epubjs/projects/1?fullscreen=true)
