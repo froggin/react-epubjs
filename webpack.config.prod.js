@@ -1,4 +1,4 @@
-var merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const commonConfig = require('./webpack.config')
@@ -41,7 +41,6 @@ module.exports = merge(commonConfig, {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        sourceMap: true,
         terserOptions: {
           compress: {
             drop_console: true,
@@ -50,4 +49,6 @@ module.exports = merge(commonConfig, {
       }),
     ],
   },
+  devtool: 'source-map', // Add this line if you need source maps
+  plugins: [htmlWebpackPlugin],
 })

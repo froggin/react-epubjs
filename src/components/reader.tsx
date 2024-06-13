@@ -4,7 +4,7 @@ import ePub, { Rendition, Location } from 'epubjs'
 import Navigator from './navigator'
 import More from './more'
 import Loader from './loader'
-import { Swipeable, EventData } from 'react-swipeable'
+import { useSwipeable } from 'react-swipeable'
 
 interface ReaderProps {
   url: any
@@ -46,6 +46,10 @@ export const Reader: React.FC<ReaderProps> = ({
   const [isMoreShow, setIsMoreShow] = useState<boolean>(false)
   const [info, setInfo] = useState()
   const [percent, setPercent] = useState(0)
+  const handlers = useSwipeable({
+    onSwipedRight: () => handlePrev(),
+    onSwipedLeft: () => handleNext(),
+  })
 
   useEffect(() => {
     const el = ref.current
@@ -80,12 +84,14 @@ export const Reader: React.FC<ReaderProps> = ({
     fontFamily && rendition.themes.default({ p: { fontFamily: `${fontFamily} !important` } })
   }
 
-  const handleRelocated = (ebook) => (location: Location): void => {
-    onRelocated(location)
+  const handleRelocated =
+    (ebook) =>
+    (location: Location): void => {
+      onRelocated(location)
 
-    const percent = ebook.locations.percentageFromCfi(location.start.cfi)
-    setPercent(percent)
-  }
+      const percent = ebook.locations.percentageFromCfi(location.start.cfi)
+      setPercent(percent)
+    }
 
   const handleShowMore = (): void => setIsMoreShow(true)
   const handleHideMore = (): void => setIsMoreShow(false)
@@ -102,14 +108,8 @@ export const Reader: React.FC<ReaderProps> = ({
     onPrev && onPrev(rendition)
   }
 
-  const handleSwipe = (eventData: EventData) => {
-    const { dir } = eventData
-    if (dir === 'Left') handleNext()
-    if (dir === 'Right') handlePrev()
-  }
-
   return (
-    <Swipeable onSwiped={handleSwipe} className="react-epubjs">
+    <div {...handlers} className="react-epubjs">
       {!rendition && <Loader />}
       <Navigator
         handleShowMore={handleShowMore}
@@ -127,7 +127,7 @@ export const Reader: React.FC<ReaderProps> = ({
         renderChapters={renderChapters}
       />
       <div className={`reader ${className} ${showPercentage ? 'pb-25' : ''}`} ref={ref} />
-    </Swipeable>
+    </div>
   )
 }
 
